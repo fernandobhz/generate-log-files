@@ -27,7 +27,9 @@ const lastDay = lastDate.getDate();
 for (let currentDay = firstDay; currentDay < lastDay; currentDay++) {
   const currentDate = new Date(currentYear, currentMonth, currentDay)
   const currentWeekDay = weekdays.at(currentDate.getDay());
-  const fileName = `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${currentDay.toString().padStart(2, '0')} - ${currentWeekDay}.txt`;
+  const currentDateString = `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${currentDay.toString().padStart(2, '0')}`;
+  const weekendWarning = ["Sunday", "Saturday"].includes(currentWeekDay) ? ` - Weekend` : ``;
+  const fileName = `${currentDateString} - ${currentWeekDay}${weekendWarning}.txt`;
   
   log(`creating ${fileName}`)
   await fs.writeFile(fileName, ``);
