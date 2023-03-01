@@ -24,7 +24,7 @@ const lastDate = new Date(currentYear, currentMonth, 0);
 const firstDay = firstDate.getDate();
 const lastDay = lastDate.getDate();
 
-for (let currentDay = firstDay; currentDay < lastDay; currentDay++) {
+for (let currentDay = firstDay; currentDay <= lastDay; currentDay++) {
   const currentDate = new Date(currentYear, currentMonth, currentDay)
   const currentWeekDay = weekdays.at(currentDate.getDay());
   const currentDateString = `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${currentDay.toString().padStart(2, '0')}`;
