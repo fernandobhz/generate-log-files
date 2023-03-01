@@ -5,9 +5,15 @@ const log = (...args) => console.log(new Date().toISOString(), ...args);
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const currentPrevious = process.argv.at(2);
+const createFolders = JSON.parse(process.argv.at(3) ?? "false");
 
 if (!['current', 'previous'].includes(currentPrevious)) {
-  console.log(`Usage:\n\tnpx generate-log-files [current|previous]`);
+  console.log(`Usage:\n\tnpx generate-log-files (current|previous) [createFolders=true|false]`);
+  process.exit(1);
+}
+
+if (![true, false].includes(createFolders)) {
+  console.log(`Usage:\n\tnpx generate-log-files (current|previous) [createFolders=true|false]`);
   process.exit(1);
 }
 
@@ -25,14 +31,14 @@ const firstDay = firstDate.getDate();
 const lastDay = lastDate.getDate();
 
 for (let currentDay = firstDay; currentDay <= lastDay; currentDay++) {
-  const currentDate = new Date(currentYear, currentMonth, currentDay)
+  const currentDate = new Date(currentYear, currentMonth - 1, currentDay)
   const currentWeekDay = weekdays.at(currentDate.getDay());
   const currentDateString = `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${currentDay.toString().padStart(2, '0')}`;
   const weekendWarning = ["Sunday", "Saturday"].includes(currentWeekDay) ? ` - Weekend` : ``;
   const fileName = `${currentDateString} - ${currentWeekDay}${weekendWarning}.txt`;
   
-  log(`creating ${fileName}`)
-  await fs.writeFile(fileName, ``);
+  log(`touch ${fileName}`)
+  if (createFolders) await fs.writeFile(fileName, ``);
 }
 
 log(`done`);
